@@ -13,7 +13,8 @@
         "php": ">=7.3.0",
         "ext-pdo": "*",
         "laravel/framework": "^8.20",
-        "laravel/ui": "^3.1"
+        "laravel/ui": "^3.1",
+        "laravel-doctrine/orm": "^1.7"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.5",
