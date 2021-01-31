@@ -13,6 +13,7 @@ class Version20210130233922 extends AbstractMigration
     {
         $builder = new Builder($schema);
         $builder->create('failed_jobs', function (Table $table) {
+            $table->increments('id');
             $table->index('id');
             $table->string('uuid');
             $table->unique('uuid');

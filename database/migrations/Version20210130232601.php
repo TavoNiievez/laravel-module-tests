@@ -21,7 +21,8 @@ class Version20210130232601 extends AbstractMigration
             $table->timestamp('email_verified_at')->setNotnull(false);
             $table->string('password');
             $table->rememberToken();
-            $table->timestamps();
+            $table->timestamp('created_at')->setNotnull(false);
+            $table->timestamp('updated_at')->setNotnull(false);
         });
     }
 

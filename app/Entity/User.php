@@ -11,6 +11,10 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use LaravelDoctrine\ORM\Auth\Authenticatable;
 use LaravelDoctrine\ORM\Notifications\Notifiable;
 
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="users")
+ */
 class User implements AuthenticatableContract, CanResetPasswordContract
 {
     use Authenticatable;
@@ -36,4 +40,25 @@ class User implements AuthenticatableContract, CanResetPasswordContract
      */
     protected $name;
 
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
+        return $this;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+        return $this;
+    }
 }

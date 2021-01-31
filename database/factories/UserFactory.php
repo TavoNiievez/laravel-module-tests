@@ -2,26 +2,25 @@
 
 declare(strict_types=1);
 
-namespace Database\Factories;
-
-use App\Models\User;
-use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Entity\User;
+use Faker\Generator as Faker;
+use LaravelDoctrine\ORM\Testing\Factory;
 use Illuminate\Support\Str;
-use function now;
 
-final class UserFactory extends Factory
-{
-    /** @var string */
-    protected $model = User::class;
+// Model Factories
 
-    public function definition(): array
-    {
-        return [
-            'name' => $this->faker->name,
-            'email' => $this->faker->unique()->safeEmail,
-            'email_verified_at' => now(),
-            'password' => 'secret',
-            'remember_token' => Str::random(10),
-        ];
-    }
-}
+$attributes = function (Faker $faker) {
+    return [
+        'name' => $faker->name,
+        'email' => $faker->unique()->safeEmail,
+        'email_verified_at' => now(),
+        'password' => 'secret',
+        'remember_token' => Str::random(10),
+    ];
+};
+
+/** @var Factory $factory */
+
+$factory->define(User::class, $attributes);
+
+$factory->defineAs(User::class, 'admin', $attributes);

@@ -13,8 +13,8 @@ class Version20210130233711 extends AbstractMigration
     {
         $builder = new Builder($schema);
         $builder->create('password_resets', function (Table $table) {
-            $table->index('email');
             $table->string('email');
+            $table->index('email');
             $table->string('token');
             $table->timestamp('created_at')->setNotnull(false);
         });
