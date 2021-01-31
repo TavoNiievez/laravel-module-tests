@@ -30,35 +30,47 @@ class User implements AuthenticatableContract, CanResetPasswordContract
 
     /**
      * @var string
+     * @ORM\Column(type="string", nullable=false)
+     */
+    protected $name;
+
+    /**
+     * @var string
      * @ORM\Column(type="string")
      */
     protected $email;
 
-    /**
-     * @var string
-     * @ORM\Column(type="string",nullable=false)
-     */
-    protected $name;
-
-    public function getEmail(): string
-    {
-        return $this->email;
-    }
-
-    public function setEmail(string $email): self
-    {
-        $this->email = $email;
-        return $this;
-    }
 
     public function getName(): string
     {
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setName(string $name): User
     {
         $this->name = $name;
+        return $this;
+    }
+
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): User
+    {
+        $this->email = $email;
+        return $this;
+    }
+
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): User
+    {
+        $this->password = $password;
         return $this;
     }
 }

@@ -4,28 +4,34 @@ declare(strict_types=1);
 
 namespace App\Repository\Doctrine;
 
-use App\Models\User;
+use App\Entity\User;
 use App\Repository\UserRepositoryInterface;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping\ClassMetadata;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Contracts\Auth\Authenticatable;
 
 final class UserRepository extends EntityRepository implements UserRepositoryInterface
 {
     public function __construct(EntityManager $entityManager)
     {
-        $metadata = new ClassMetadata(\App\Entity\User::class);
+        $metadata = new ClassMetadata(User::class);
         parent::__construct($entityManager, $metadata);
+    }
+
+    public function save(Authenticatable $user): void
+    {
+        $this->_em->persist($user);
+        $this->_em->flush();
+        $this->_em->clear();
     }
 
     /**
      * @param array $attributes
      * @return User
      */
-    public function create(array $attributes = []): Model
+    public function create(array $attributes = []): Authenticatable
     {
-        entity(\App\Entity\User::class)->create($attributes);
-        return User::factory()->makeOne($attributes);
+        return entity(User::class)->create($attributes);
     }
 }

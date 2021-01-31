@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\AbstractController;
-use App\Models\User;
+use App\Entity\User;
 use App\Providers\RouteServiceProvider;
 use App\Repository\UserRepositoryInterface;
 use Illuminate\Contracts\Validation\Factory as Validation;

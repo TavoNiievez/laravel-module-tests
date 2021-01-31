@@ -4,16 +4,15 @@ declare(strict_types=1);
 
 namespace Tests\Functional;
 
+use App\Entity\User;
 use App\Events\TestEvent;
 use App\Http\Controllers\TestController;
-use App\Models\User;
 use App\Repository\UserRepositoryInterface;
 use App\Utils\Contracts\StringConverterInterface;
 use App\Utils\Repeat;
 use App\Utils\ToUppercase;
 use Illuminate\Contracts\Config\Repository as Config;
 use Illuminate\Contracts\Http\Kernel;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Application;
 use Tests\FunctionalTester;
 
@@ -51,7 +50,7 @@ final class LaravelModuleCest
             'Password' => '123456'
         ]);
 
-        $I->seeRecord(User::class, ['email' => 'jane_doe@gmail.com']);
+        $I->seeRecord('users', ['email' => 'jane_doe@gmail.com']);
         $I->assertEquals('User created!', $output);
     }
 
@@ -74,7 +73,7 @@ final class LaravelModuleCest
         $I->disableEvents();
 
         $I->amOnPage('/fire-event');
-        $I->dontSeeRecord(User::class, ['email' => 'johndoe@example.com']);
+        $I->dontSeeRecord('users', ['email' => 'johndoe@example.com']);
     }
 
     public function disableExceptionHandling(FunctionalTester $I)
@@ -85,27 +84,6 @@ final class LaravelModuleCest
     public function disableMiddleware(FunctionalTester $I)
     {
         // TODO
-    }
-
-    public function disableModelEvents(FunctionalTester $I)
-    {
-        $userRepository = app()->get(UserRepositoryInterface::class);
-        /** @var User $user */
-        $user = $userRepository->create([
-            'email' => 'john_doe@original.com',
-            'password' => 'password',
-        ]);
-
-        User::saving(function () {
-            return false;
-        });
-
-        $I->disableModelEvents();
-
-        $user->setEmail('john_doe@updated.com');
-        $user->save();
-
-        $I->seeRecord(User::class, ['email' => 'john_doe@updated.com']);
     }
 
     public function dontSeeAuthentication(FunctionalTester $I)
@@ -136,7 +114,7 @@ final class LaravelModuleCest
         $I->disableEvents();
 
         $I->amOnPage('/fire-event');
-        $I->dontSeeRecord(User::class, ['email' => 'johndoe@example.com']);
+        $I->dontSeeRecord('users', ['email' => 'johndoe@example.com']);
     }
 
     public function enableExceptionHandling(FunctionalTester $I)
@@ -151,16 +129,13 @@ final class LaravelModuleCest
 
     public function grabNumRecords(FunctionalTester $I)
     {
-        $numRecords = $I->grabNumRecords(User::class);
-        $I->assertSame(1, $numRecords);
-
         $numRecords = $I->grabNumRecords('users');
         $I->assertSame(1, $numRecords);
     }
 
     public function grabRecord(FunctionalTester $I)
     {
-        $I->haveRecord(User::class, [
+        $I->haveRecord('users', [
             'name' => 'Jane Doe',
             'email' => 'jane_doe@gmail.com',
             'password' => 'password',
@@ -171,24 +146,12 @@ final class LaravelModuleCest
         // Grab record with table name
         $record = $I->grabRecord('users', ['email' => 'jane_doe@gmail.com']);
         $I->assertTrue(is_array($record));
-
-        // Grab record with model class
-        $model = $I->grabRecord(User::class, ['email' => 'jane_doe@gmail.com']);
-        $I->assertTrue($model instanceof User);
     }
 
     public function grabService(FunctionalTester $I)
     {
         $kernel = $I->grabService(Kernel::class);
         $I->assertInstanceOf('App\Http\Kernel', $kernel);
-    }
-
-    public function have(FunctionalTester $I)
-    {
-        $user = $I->have(User::class, ['email' => 'johndoe@example.com']);
-
-        $I->assertEquals('johndoe@example.com', $user->email);
-        $I->seeRecord('users', ['email' => 'johndoe@example.com']);
     }
 
     public function haveApplicationHandler(FunctionalTester $I)
@@ -234,30 +197,16 @@ final class LaravelModuleCest
         $I->seeElement($expected);
     }
 
-    public function haveMultiple(FunctionalTester $I)
-    {
-        $I->haveMultiple(User::class, 3);
-
-        $I->seeNumRecords(4, User::class);
-    }
-
     public function haveRecord(FunctionalTester $I)
     {
-        $emails = [
-            'users' => 'bonnie@gmail.com',
-            User::class => 'clyde@gmail.com'
-        ];
-
-        foreach ($emails as $table => $email) {
-            $I->haveRecord($table, [
-                'name' => 'John Doe',
-                'email' => $email,
-                'password' => 'password',
-                'created_at' => '',
-                'updated_at' => ''
-            ]);
-            $I->seeRecord($table, ['email' => $email]);
-        }
+        $I->haveRecord('users', [
+            'name' => 'John Doe',
+            'email' => 'bonnie@gmail.com',
+            'password' => 'password',
+            'created_at' => '',
+            'updated_at' => ''
+        ]);
+        $I->seeRecord('users', ['email' => 'bonnie@gmail.com']);
     }
 
     public function haveSingleton(FunctionalTester $I)
@@ -272,22 +221,6 @@ final class LaravelModuleCest
     public function logout(FunctionalTester $I)
     {
         // TODO
-    }
-
-    public function make(FunctionalTester $I)
-    {
-        /** @var Collection $collection */
-        $collection = $I->make(User::class, ['email' => 'johndoe@example.com']);
-
-        $I->assertInstanceOf(User::class, $collection->first());
-    }
-
-    public function makeMultiple(FunctionalTester $I)
-    {
-        /** @var Collection $collection */
-        $collection = $I->makeMultiple(User::class, 3);
-
-        $I->assertSame(3, $collection->count());
     }
 
     public function seeAuthentication(FunctionalTester $I)
@@ -317,7 +250,7 @@ final class LaravelModuleCest
     public function seeEventTriggered(FunctionalTester $I)
     {
         $I->amOnPage('/fire-event');
-        $I->seeNumRecords(2, User::class);
+        $I->seeNumRecords(2, 'users');
 
         // With class name
         $I->seeEventTriggered(TestEvent::class);
@@ -377,7 +310,6 @@ final class LaravelModuleCest
     public function seeNumRecords(FunctionalTester $I)
     {
         $I->seeNumRecords(1,'users');
-        $I->seeNumRecords(1,User::class);
     }
 
     public function seeRecord(FunctionalTester $I)

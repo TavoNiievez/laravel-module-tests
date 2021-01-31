@@ -4,14 +4,11 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Foundation\Auth\User as BaseUser;
+use Illuminate\Contracts\Auth\Authenticatable;
 
 interface UserRepositoryInterface
 {
-    /**
-     * @param array $attributes
-     * @return BaseUser
-     */
-    public function create(array $attributes = []): Model;
+    public function save(Authenticatable $user): void;
+
+    public function create(array $attributes = []): Authenticatable;
 }
