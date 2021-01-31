@@ -1674,16 +1674,16 @@
         },
         {
             "name": "laravel-doctrine/migrations",
-            "version": "2.3.0",
+            "version": "2.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel-doctrine/migrations.git",
-                "reference": "1d35e8b8b828aca3ca9e9f1c3517ab008e4bc5bf"
+                "reference": "7c7130f3d5e76e3beaea9f6f676e1afd5ae4d5cc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel-doctrine/migrations/zipball/1d35e8b8b828aca3ca9e9f1c3517ab008e4bc5bf",
-                "reference": "1d35e8b8b828aca3ca9e9f1c3517ab008e4bc5bf",
+                "url": "https://api.github.com/repos/laravel-doctrine/migrations/zipball/7c7130f3d5e76e3beaea9f6f676e1afd5ae4d5cc",
+                "reference": "7c7130f3d5e76e3beaea9f6f676e1afd5ae4d5cc",
                 "shasum": ""
             },
             "require": {
@@ -1732,9 +1732,9 @@
             ],
             "support": {
                 "issues": "https://github.com/laravel-doctrine/migrations/issues",
-                "source": "https://github.com/laravel-doctrine/migrations/tree/2.3.0"
+                "source": "https://github.com/laravel-doctrine/migrations/tree/2.3.1"
             },
-            "time": "2021-01-25T17:48:35+00:00"
+            "time": "2021-01-31T09:45:58+00:00"
         },
         {
             "name": "laravel-doctrine/orm",

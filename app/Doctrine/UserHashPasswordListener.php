@@ -2,15 +2,21 @@
 
 declare(strict_types=1);
 
-namespace App\Observers;
+namespace App\Doctrine;
 
-use App\Models\User;
+use App\Entity\User;
+use Doctrine\ORM\Event\LifecycleEventArgs;
 use Illuminate\Contracts\Hashing\Hasher;
 
-final class UserObserver
+final class UserHashPasswordListener
 {
-    public function saving(User $user): void
+    public function prePersist(LifecycleEventArgs $event): void
     {
+        $user = $event->getObject();
+        if (!($user instanceof User)) {
+            return;
+        }
+
         $hasher = app()->get(Hasher::class);
 
         if (!$hasher->needsRehash($user->getPassword())) {
