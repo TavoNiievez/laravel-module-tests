@@ -2,5 +2,8 @@ class_name: FunctionalTester
 modules:
   enabled:
     - Asserts
+    - Doctrine2:
+        depends: Laravel
+        cleanup: true
     - Laravel:
         environment_file: .env.testing
