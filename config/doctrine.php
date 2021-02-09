@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Doctrine\UserHashPasswordListener;
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\Events;
 use LaravelDoctrine\ORM\Loggers\LaravelDebugbarLogger;
 
 return [
@@ -30,10 +28,7 @@ return [
 
             // Doctrine events
             'events' => [
-                'listeners' => [
-                    Events::prePersist => UserHashPasswordListener::class,
-                    Events::preUpdate => UserHashPasswordListener::class
-                ],
+                'listeners' => [],
                 'subscribers' => []
             ],
             'filters' => [],

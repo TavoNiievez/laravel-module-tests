@@ -5,29 +5,23 @@ declare(strict_types=1);
 namespace App\Doctrine;
 
 use App\Entity\User;
+use DateTime;
 use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Illuminate\Contracts\Hashing\Hasher;
 
-final class UserHashPasswordListener
+final class UserListener
 {
-    public function prePersist(LifecycleEventArgs $event): void
+    public function prePersist(User $user, LifecycleEventArgs $event)
     {
-        $user = $event->getObject();
-        if (!($user instanceof User)) {
-            return;
-        }
-
         $this->hashPassword($user);
+        $this->updateTimestamps($user);
     }
 
-    public function preUpdate(LifecycleEventArgs $event): void
+    public function preUpdate(User $user, PreUpdateEventArgs $event)
     {
-        $user = $event->getObject();
-        if (!($user instanceof User)) {
-            return;
-        }
-
         $this->hashPassword($user);
+        $this->updateTimestamps($user);
     }
 
     private function hashPassword(User $user): void
@@ -41,5 +35,16 @@ final class UserHashPasswordListener
         $user->setPassword(
             $hasher->make($user->getPassword())
         );
+    }
+
+    private function updateTimestamps(User $user): void
+    {
+        $dateTime = new DateTime();
+
+        if ($user->getCreatedAt() === null) {
+            $user->setCreatedAt($dateTime);
+        }
+
+        $user->setUpdatedAt($dateTime);
     }
 }

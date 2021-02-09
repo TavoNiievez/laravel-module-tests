@@ -15,6 +15,7 @@ use LaravelDoctrine\ORM\Notifications\Notifiable;
 /**
  * @ORM\Entity
  * @ORM\Table(name="users")
+ * @ORM\EntityListeners({"App\Doctrine\UserListener"})
  */
 class User implements AuthenticatableContract, CanResetPasswordContract
 {
@@ -42,13 +43,13 @@ class User implements AuthenticatableContract, CanResetPasswordContract
     protected $email;
 
     /**
-     * @var DateTime
+     * @var DateTime|null
      * @ORM\Column(name="created_at", type="datetime")
      */
     protected $createdAt;
 
     /**
-     * @var DateTime
+     * @var DateTime|null
      * @ORM\Column(name="updated_at", type="datetime")
      */
     protected $updatedAt;
@@ -86,7 +87,7 @@ class User implements AuthenticatableContract, CanResetPasswordContract
         return $this;
     }
 
-    public function getCreatedAt(): DateTime
+    public function getCreatedAt(): ?DateTime
     {
         return $this->createdAt;
     }
@@ -97,7 +98,7 @@ class User implements AuthenticatableContract, CanResetPasswordContract
         return $this;
     }
 
-    public function getUpdatedAt(): DateTime
+    public function getUpdatedAt(): ?DateTime
     {
         return $this->updatedAt;
     }
