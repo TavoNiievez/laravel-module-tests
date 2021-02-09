@@ -28,6 +28,7 @@ class Version20210130232601 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        $schema->dropTable('users');
+        $builder = new Builder($schema);
+        $builder->dropIfExists('users');
     }
 }

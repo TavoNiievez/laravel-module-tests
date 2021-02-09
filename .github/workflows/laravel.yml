@@ -47,5 +47,6 @@ jobs:
           cp .env.testing .env
           php artisan config:cache
           touch database/database.sqlite
-          php artisan migrate --seed --env=testing --force
+          php artisan doctrine:migrations:refresh
+          php artisan db:seed
           vendor/bin/codecept run Functional

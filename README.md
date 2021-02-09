@@ -28,7 +28,8 @@ Lastly, if you just want to see the module in action and run the tests yourself 
 4. Create the database file: `database/database.sqlite`.
 5. Update database schema and load seeders:
    ```shell
-   php artisan migrate --seed
+   php artisan doctrine:migrations:refresh
+   php artisan db:seed
    ```
 
 Then, go to the project directory and run:
