@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use App\Models\User;
+use Illuminate\Contracts\Auth\Authenticatable;
 
 interface UserRepositoryInterface
 {
-    public function create(array $attributes = []): User;
+    public function create(array $attributes = []): Authenticatable;
 
-    public function save(User $user): void;
+    public function save(Authenticatable $user): void;
 }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Models\User;
+use App\Entity\User;
 
 return [
 
@@ -26,7 +26,7 @@ return [
 
     'providers' => [
         'users' => [
-            'driver' => 'eloquent',
+            'driver' => 'doctrine',
             'model' => User::class,
         ],
     ],
