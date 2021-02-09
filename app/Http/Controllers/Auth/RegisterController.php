@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\AbstractController;
-use App\Models\User;
+use App\Entity\User;
 use App\Providers\RouteServiceProvider;
 use App\Repository\UserRepositoryInterface;
 use Illuminate\Contracts\Validation\Factory as Validation;
@@ -29,7 +29,7 @@ final class RegisterController extends AbstractController
         $validation = app()->get(Validation::class);
         return $validation->make($data, [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:'. User::class],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
