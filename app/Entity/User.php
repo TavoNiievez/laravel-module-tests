@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
@@ -40,6 +41,17 @@ class User implements AuthenticatableContract, CanResetPasswordContract
      */
     protected $email;
 
+    /**
+     * @var DateTime
+     * @ORM\Column(name="created_at", type="datetime")
+     */
+    protected $createdAt;
+
+    /**
+     * @var DateTime
+     * @ORM\Column(name="updated_at", type="datetime")
+     */
+    protected $updatedAt;
 
     public function getName(): string
     {
@@ -71,6 +83,28 @@ class User implements AuthenticatableContract, CanResetPasswordContract
     public function setPassword(string $password): User
     {
         $this->password = $password;
+        return $this;
+    }
+
+    public function getCreatedAt(): DateTime
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(DateTime $createdAt): User
+    {
+        $this->createdAt = $createdAt;
+        return $this;
+    }
+
+    public function getUpdatedAt(): DateTime
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(DateTime $updatedAt): User
+    {
+        $this->updatedAt = $updatedAt;
         return $this;
     }
 }

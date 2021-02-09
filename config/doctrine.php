@@ -32,6 +32,7 @@ return [
             'events' => [
                 'listeners' => [
                     Events::prePersist => UserHashPasswordListener::class,
+                    Events::preUpdate => UserHashPasswordListener::class
                 ],
                 'subscribers' => []
             ],

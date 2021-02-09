@@ -17,6 +17,21 @@ final class UserHashPasswordListener
             return;
         }
 
+        $this->hashPassword($user);
+    }
+
+    public function preUpdate(LifecycleEventArgs $event): void
+    {
+        $user = $event->getObject();
+        if (!($user instanceof User)) {
+            return;
+        }
+
+        $this->hashPassword($user);
+    }
+
+    private function hashPassword(User $user): void
+    {
         $hasher = app()->get(Hasher::class);
 
         if (!$hasher->needsRehash($user->getPassword())) {
